@@ -9,9 +9,9 @@
             "os_name": "posix",
             "platform_machine": "x86_64",
             "platform_python_implementation": "CPython",
-            "platform_release": "4.14.11-1-ARCH",
+            "platform_release": "4.14.13-1-ARCH",
             "platform_system": "Linux",
-            "platform_version": "#1 SMP PREEMPT Wed Jan 3 07:02:42 UTC 2018",
+            "platform_version": "#1 SMP PREEMPT Wed Jan 10 11:14:50 UTC 2018",
             "python_full_version": "3.6.4",
             "python_version": "3.6",
             "sys_platform": "linux"
