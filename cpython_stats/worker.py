@@ -3,15 +3,19 @@ import os
 import time
 
 import github3
+from celery import Celery
+from celery.decorators import periodic_task
+from cpython_stats.models import init_db
+
 from cpython_stats.logging_utils import set_up_logging
 from cpython_stats.models.core_developers import CoreDeveloper
 from cpython_stats.models.pull_request import create_pull_request_from_gh_object, PullRequest
-from cpython_stats.models_base import init_db
 from cpython_stats.utils import retry_and_catch, session_scope
 
+APP = Celery('tasks', broker=os.getenv("RABBITMQ_URL"))
 logger = set_up_logging(__name__)
 
-
+@periodic_task(run_every=datetime.timedelta(days=1))
 def main():
     gh = github3.login(os.getenv("BOT_MAIL"), os.getenv("BOT_PASSWORD"))
     engine, Base, Session = init_db()

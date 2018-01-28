@@ -28,13 +28,14 @@
     </div>
 </div>
 
+<h5 class="header col s12 light">Mean time to merge</h5>
 <div style="width:40%; margin:0 auto;">
     <div class="row">
         <div class="col s12 m6">
             <div class="card blue-grey darken-1">
                 <div class="card-content white-text">
                     <span class="card-title">Non core developers</span>
-                    <p style="font-size:160%;">{{'{0:.2f}'.format(non_coredev.mean())}} +
+                    <p style="font-size:160%;">{{'{0:.2f}'.format(non_coredev.mean())}} +-
                         {{'{0:.2f}'.format(non_coredev.std())}} days.</p>
                 </div>
             </div>
@@ -43,7 +44,7 @@
             <div class="card blue-grey darken-1">
                 <div class="card-content white-text">
                     <span class="card-title">Core Developers</span>
-                    <p style="font-size:160%;">{{'{0:.2f}'.format(coredev.mean())}} +
+                    <p style="font-size:160%;">{{'{0:.2f}'.format(coredev.mean())}} +-
                         {{'{0:.2f}'.format(coredev.std())}} days.</p>
                 </div>
             </div>
@@ -54,6 +55,10 @@
 
 <div style="width:40%; margin:0 auto;">
     <canvas id="canvas"></canvas>
+</div>
+
+<div style="width:40%; margin:0 auto;">
+    <canvas id="merge_over_time"></canvas>
 </div>
 
 <!--  Scripts-->

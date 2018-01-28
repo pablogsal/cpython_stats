@@ -1,12 +1,13 @@
 import datetime
 import itertools
 import os
+import logging
 
 import numpy as np
 import pandas as pd
 from cpython_stats.models.core_developers import CoreDeveloper
 from cpython_stats.models.pull_request import PullRequest
-from cpython_stats.models_base import init_db
+from cpython_stats.models import init_db
 from cpython_stats.utils import session_scope, cache_response
 from flask import Flask, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
@@ -32,6 +33,13 @@ def get_prs():
     return jsonify([{"date": event[0], "n": event[1]} for event in events.itertuples()])
 
 
+@app.route("/get_merge_times")
+def get_merge_times():
+    events = get_merge_over_time()
+    logging.warning("merge ready")
+    return jsonify([{"date": event[0], "n": event[1]} for event in events.itertuples()])
+
+
 @cache_response(datetime.timedelta(days=1))
 def get_merge_stats():
     pull_requests = get_pull_requests()
@@ -54,15 +62,24 @@ def get_core_developers():
 
 @cache_response(datetime.timedelta(days=1))
 def get_open_pr_history():
-    pr_dt = pd.read_sql("SELECT * FROM pull_requests", ENGINE)
-    pr_dt.set_index("created_at", inplace=True, )
+    pr_dt = get_pull_requests()
+    pr_dt = pr_dt.set_index("created_at")
     closed_events = list(zip(pr_dt[pr_dt["closed_at"].notnull()]["closed_at"].values, itertools.repeat(-1)))
     created_events = list(zip(pr_dt.index.values, itertools.repeat(+1)))
     events = np.concatenate([created_events, closed_events])
     events = np.array(sorted(events, key=lambda x: x[0]))
     events = pd.DataFrame(events).set_index(0)
     events = events.cumsum()
-    return events[-1000:]
+    return events[::10]
+
+
+@cache_response(datetime.timedelta(days=1))
+def get_merge_over_time():
+    pr_dt = get_pull_requests()
+    pr_dt["merge_time"] = (pr_dt["closed_at"] - pr_dt["created_at"]) / np.timedelta64(1, 'D')
+    pr_dt = pr_dt.set_index("created_at").sort_index()
+    merges = pr_dt[~pr_dt["merge_time"].isnull()]["merge_time"]
+    return pd.DataFrame(index=merges.index, data=(merges.cumsum() / (np.arange(len(merges)) + 1)).values).iloc[100::10]
 
 
 @cache_response(datetime.timedelta(days=1))

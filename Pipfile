@@ -21,6 +21,7 @@ gunicorn = "*"
 "github3-py" = "*"
 pandas = "*"
 numpy = "*"
+celery = "*"
 
 
 [dev-packages]

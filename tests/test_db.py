@@ -5,7 +5,7 @@ import betamax
 import github3
 import pytest
 from cpython_stats.models.pull_request import create_pull_request_from_gh_object
-from cpython_stats.models_base import init_db
+from cpython_stats.models import init_db
 from cpython_stats.utils import session_scope
 
 

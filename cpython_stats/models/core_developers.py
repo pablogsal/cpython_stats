@@ -1,4 +1,4 @@
-from cpython_stats.models_base import Base
+from cpython_stats.models import Base
 from sqlalchemy import Column, String
 
 
