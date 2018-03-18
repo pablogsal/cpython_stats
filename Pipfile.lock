@@ -288,10 +288,11 @@
         },
         "pytest": {
             "hashes": [
-                "sha256:b84878865558194630c6147f44bdaef27222a9f153bbd4a08908b16bf285e0b1",
-                "sha256:53548280ede7818f4dc2ad96608b9f08ae2cc2ca3874f2ceb6f97e3583f25bc4"
+                "sha256:062027955bccbc04d2fcd5d79690947e018ba31abe4c90b2c6721abec734261b",
+                "sha256:117bad36c1a787e1a8a659df35de53ba05f9f3398fb9e4ac17e80ad5903eb8c5"
             ],
-            "version": "==3.3.2"
+            "index": "pypi",
+            "version": "==3.4.2"
         },
         "pytest-cov": {
             "hashes": [
